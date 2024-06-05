@@ -1,1 +1,1 @@
-# BadParentsGameBot
+# chihcoin_web_game
