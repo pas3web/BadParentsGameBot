@@ -1,5 +1,9 @@
 let balance = loadBalance();
+let score = 0;
+let timeLeft = 30;
 let gameOver = false;
+let timer;
+let coins;
 
 const config = {
     type: Phaser.AUTO,
