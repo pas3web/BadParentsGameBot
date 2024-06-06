@@ -161,6 +161,7 @@ function endGame() {
     backButton.on('pointerdown', () => {
         balance += score;
         saveBalance(balance);
+        resetGame();  // Сброс состояния игры при возврате в главное меню
         this.scene.stop('GameScene');
         this.scene.start('MenuScene', { balance: balance });
     });
@@ -188,6 +189,9 @@ function resetGame() {
     score = 0;
     timeLeft = 30;
     gameOver = false;
+    if (timer) {
+        timer.remove(false);
+    }
 }
 
 function resize(gameSize) {
@@ -204,4 +208,25 @@ function saveBalance(balance) {
 function loadBalance() {
     let savedBalance = localStorage.getItem('balance');
     return savedBalance ? parseInt(savedBalance) : 0;
+}
+
+function onEvent() {
+    if (timeLeft > 0) {
+        timeLeft -= 1;
+        timerText.setText('Time: ' + timeLeft + 's');
+    } else if (timeLeft === 0) {
+        endGame.call(this);
+    }
+}
+
+function dropCoin() {
+    if (timeLeft > 0) {
+        let x = Phaser.Math.Between(0, this.scale.width);
+        let y = Phaser.Math.Between(-50, -10);  // Начальная позиция немного выше экрана
+        let coinImage = Phaser.Math.RND.pick(['dog1', 'dog2', 'dog3', 'dog4', 'dog5', 'dog6']); // Выбор случайного изображения
+        let coin = coins.create(x, y, coinImage);
+        coin.setScale(0.25);  // Уменьшаем размер монеты в 4 раза
+        coin.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        coin.setVelocity(0, 200);  // Убираем горизонтальное движение, оставляем только вертикальное
+    }
 }
