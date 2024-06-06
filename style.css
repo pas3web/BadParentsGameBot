@@ -1,5 +1,3 @@
-/* style.css */
-
 html, body {
     height: 100%;
     margin: 0;
@@ -11,26 +9,27 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #000; /* Черный фон */
+    background-color: #000;
 }
 
-#menu-container {
+#game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
     text-align: center;
-    color: #fff; /* Белый цвет текста */
 }
 
-#app-title {
-    font-size: 36px;
-    margin-bottom: 20px;
+#main-menu, #game-ui {
+    display: none;
 }
 
-#balance {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-#play-button {
-    font-size: 18px;
-    padding: 10px 20px;
-    cursor: pointer;
+#main-menu.active, #game-ui.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
