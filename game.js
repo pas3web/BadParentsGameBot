@@ -21,8 +21,7 @@ const config = {
     }
 };
 
-let game = new Phaser.Game(config);
-
+let game;
 let coins;
 let score = 0;
 let scoreText;
@@ -31,6 +30,11 @@ let timeLeft = 30;
 let timerText;
 let gameOver = false;
 let restartButton;
+let backButton;
+
+function startGame() {
+    game = new Phaser.Game(config);
+}
 
 function preload() {
     this.load.image('background', 'assets/background.png'); // Новый фон
@@ -76,7 +80,6 @@ function create() {
         loop: true
     });
 
-    // Обработка изменения размера окна
     this.scale.on('resize', resize, this);
     resize.call(this, { width: window.innerWidth, height: window.innerHeight });
 }
@@ -112,11 +115,9 @@ function dropCoin() {
 }
 
 function endGame() {
-    // Полностью черный фон
     let bg = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x000000, 1.0);
     bg.setOrigin(0.5, 0.5);
 
-    // Текст с результатом
     let resultText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 50, `Woooow!\nYour score - ${score}!\nCOOL!`, {
         fontSize: '32px',
         fill: '#fff',
@@ -124,7 +125,6 @@ function endGame() {
     });
     resultText.setOrigin(0.5);
 
-    // Кнопка перезапуска
     restartButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 50, 'Restart', {
         fontSize: '32px',
         fill: '#fff',
@@ -132,12 +132,23 @@ function endGame() {
     });
     restartButton.setOrigin(0.5);
     restartButton.setInteractive();
-
     restartButton.on('pointerdown', function () {
-        console.log('Restart button clicked'); // Отладка
         resetGame();
         this.scene.restart();
     }, this);
+
+    backButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 100, 'Back', {
+        fontSize: '32px',
+        fill: '#fff',
+        align: 'center'
+    });
+    backButton.setOrigin(0.5);
+    backButton.setInteractive();
+    backButton.on('pointerdown', function () {
+        updateBalance(score);
+        game.destroy(true);
+        showMainMenu();
+    });
 }
 
 function resetGame() {
