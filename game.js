@@ -158,6 +158,7 @@ function endGame() {
         saveBalance(balance);
         this.scene.stop('GameScene');
         this.scene.start('MenuScene', { balance: balance });
+        resetGame();  // Сброс состояния игры при возврате в главное меню
     });
 }
 
@@ -200,3 +201,4 @@ function loadBalance() {
     let savedBalance = localStorage.getItem('balance');
     return savedBalance ? parseInt(savedBalance) : 0;
 }
+
