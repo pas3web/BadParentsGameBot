@@ -161,7 +161,6 @@ function endGame() {
     backButton.on('pointerdown', () => {
         balance += score;
         saveBalance(balance);
-        resetGame(); // Сброс состояния игры при возврате в главное меню
         this.scene.stop('GameScene');
         this.scene.start('MenuScene', { balance: balance });
     });
