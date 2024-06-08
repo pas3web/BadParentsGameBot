@@ -146,6 +146,8 @@ function endGame() {
     restartButton.setInteractive();
 
     restartButton.on('pointerdown', () => {
+        balance += score; // Добавляем очки в баланс при нажатии Restart
+        saveBalance(balance);
         resetGame();
         this.scene.restart();
     });
